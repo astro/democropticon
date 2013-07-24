@@ -4,7 +4,9 @@
 
 *TODO:* write a `.cabal` file!
 
+```bash
 ghc --make -O2 osm-addrs
+```
 
 ## Usage
 
@@ -12,7 +14,7 @@ First download and decompress a `.osm.bz2` dump from
 [Geofabrik](http://download.geofabrik.de/europe/germany/sachsen.html).
 
 Run through pipe view:
-```shell
+```bash
 pv -per < sachsen-latest.osm |
 	./osm-addrs Dresden > dresden.json
 ```
