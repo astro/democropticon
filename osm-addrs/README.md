@@ -5,6 +5,7 @@
 *TODO:* write a `.cabal` file!
 
 ```bash
+cabal update; cabal install --ghc-options=-O2 xml-conduit aeson
 ghc --make -O2 osm-addrs
 ```
 
