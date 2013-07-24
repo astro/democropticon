@@ -144,27 +144,12 @@ eventsToAddress city evs =
      loc <- Location <$>
             (nodeAttr "lon") <*>
             (nodeAttr "lat")
-     city <- tagEl "addr:city"
-     Address loc <$>
-       (tagEl "addr:street") <*>
-       (return $ tagEl "addr:housenumber")
+     city' <- tagEl "addr:city"
+     if city == city' 
+       then Address loc <$>
+            (tagEl "addr:street") <*>
+            (return $ tagEl "addr:housenumber")
+       else Nothing
 
 contentToText :: [Content] -> Text
 contentToText = T.concat . map (\(ContentText t) -> t)
-
-deduplicate :: Monad m => Sink Address m [Address]
-deduplicate = map mergeAddrs <$>
-              HM.elems <$>
-              -- Group by address:
-              CL.fold (flip $ \addr ->
-                        let k = (addrStreet addr, addrHouse addr)
-                        in HM.insertWith (++) k [addr]
-                      ) (HM.empty :: HM.HashMap (Text, Maybe Text) [Address])
-  where mergeAddrs :: [Address] -> Address
-        mergeAddrs [addr] = addr
-        mergeAddrs addrs@(addr:_) =
-          let avg xs = sum xs / fromIntegral (length xs)
-              locs = map addrLocation addrs
-              lats = map locLat locs
-              lons = map locLon locs
-          in addr { addrLocation = Location (avg lons) (avg lats) }
