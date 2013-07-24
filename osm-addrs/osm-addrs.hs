@@ -11,17 +11,13 @@ import Data.Conduit.Binary
 import qualified Data.Conduit.List as CL
 import Data.XML.Types
 import Text.XML.Stream.Parse
-import Text.XML.Stream.Render
 import System.IO
-import Blaze.ByteString.Builder (toByteString)
 import qualified Data.Text as T
 import Data.Sequence (Seq, (<|), (|>))
 import qualified Data.Sequence as Seq
 import qualified Data.Foldable as F
-import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy as LB
 import Data.Text (Text)
-import qualified Data.HashMap.Strict as HM
 import Data.Aeson
 
 
@@ -40,7 +36,7 @@ run city =
   processDocument city $$
   -- | Output JSON
   (do yield "["
-      let forward = mapM yield . LB.toChunks . encode
+      let forward = mapM_ yield . LB.toChunks . encode
           loop first = 
             await >>=
             maybe (return ())
