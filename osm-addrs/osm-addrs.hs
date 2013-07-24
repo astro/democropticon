@@ -72,11 +72,11 @@ data Address = Address { addrLocation :: Location,
 
 instance ToJSON Address where
   toJSON addr =
-    object ["lon" .= locLon (addrLocation addr),
-            "lat" .= locLat (addrLocation addr),
-            "street" .= addrStreet addr,
-            "house" .= addrHouse addr
-           ]
+    object $
+    ["lon" .= locLon (addrLocation addr),
+     "lat" .= locLat (addrLocation addr),
+     "street" .= addrStreet addr
+    ] ++ maybe [] ((:[]) . ("house" .=)) (addrHouse addr)
   
 processDocument :: Text -> Monad m => Conduit Event m Address
 processDocument city =
