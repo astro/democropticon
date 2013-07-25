@@ -1,0 +1,17 @@
+$newline never
+<h1>Ratsinfokarte
+<section ng-app="app" ng-controller="MainController">
+  <article #map leaflet>
+  <article #docs>
+    <h2 ng-show="docs.length < 1">← Klicke links auf die Karte
+    <h2 ng-show="docs.length == 1">Ein Dokument ausgewählt
+    <h2 ng-show="docs.length > 1">{{docs.length}} Dokumente ausgewählt
+    <dl ng-repeat="doc in docs">
+      <dt ng-show="doc.description.length > 0"
+      	  ng-repeat="description in doc.description">{{description}}
+      <dt ng-hide="doc.description.length > 0">Unbenannt
+      <dt ng-repeat="description in doc.description">{{description}}
+      <dd>
+        <a ng-click="onClickPDF(doc.path)">Ansehen
+  <iframe #pdf pdf-js width="100%" height="800"
+  	  src=@{StaticR pdf_js_viewer_html}>

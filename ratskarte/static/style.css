@@ -1,0 +1,83 @@
+html {
+    margin: 0;
+    padding: 0;
+    background-color: #2a2a2a;
+    color: #333;
+    font-family: sans-serif;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-size: 300%;
+    font-family: serif;
+    background-color: #fff100;
+    color: #2a2a2a;
+    border-bottom: solid 0.2em #e5d800;
+    padding: 0.1em 0.5em;
+    margin: 0;
+}
+section {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+#map, #docs {
+    position: absolute;
+    display: inline-block;
+    height: 400px;
+    margin: 0;
+    padding: 0;
+}
+#map {
+    width: 70%;
+    left: 0;
+    top: 0;
+}
+#docs {
+    right: 0;
+    top: 0;
+    width: 30%;
+    background-color: #ccc;
+    color: #333;
+    overflow-y: auto;
+    font-size: 80%;
+}
+#docs h2 {
+    margin: 0.5em;
+    color: #888;
+    font-size: 125%;
+    font-weight: bold;
+}
+#docs dl {
+    margin: 0.1em 0.5em 0.4em;
+    padding: 0;
+}
+#docs dt {
+    display: inline;
+    font-weight: bold;
+    line-height: 1.1em;
+}
+#docs dt:after {
+    content: ': ';
+    padding: 0 1em 0 0;
+    color: #777;
+    font-weight: bold;
+    font-style: italic;
+}
+#docs dd {
+    text-align: right;
+}
+a {
+    cursor: pointer;
+}
+#pdf {
+    position: absolute;
+    bottom: 0;
+    top: 400px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+}
