@@ -13,7 +13,7 @@ app.directive('leaflet', function() {
     return {
 	restrict: 'A',
 	link: function($scope, element, attrs) {
-	    var map = new L.Map(element[0]);
+	    var map = L.map(element[0]);
 	    map.setView([51.0474, 13.7464], 10);
 	    map.addLayer(
 		// L.tileLayer('http://{s}.tile.cloudmade.com/API-key/997/256/{z}/{x}/{y}.png', {
@@ -35,12 +35,29 @@ app.directive('leaflet', function() {
 		markers.forEach(function(marker) {
 		    map.removeLayer(marker);
 		});
-		markers = coords.map(function(coord) {
-		    return new L.Marker({
-			lat: coord.lat,
-			lon: coord.lon
-		    }).addTo(map);
+		markers = [];
+
+		var coordsCounts = {};
+		coords.map(function(coord) {
+		    var key = coord.lon + ";" + coord.lat;
+		    if (!coordsCounts.hasOwnProperty(key))
+			coordsCounts[key] = 0;
+		    coordsCounts[key]++;
 		});
+		for(var key in coordsCounts)
+		    if (coordsCounts.hasOwnProperty(key)) {
+			var lonlat = key.split(";");
+			markers.push(L.marker({
+			    lon: parseFloat(lonlat[0]),
+			    lat: parseFloat(lonlat[1])
+			}, {
+			    clickable: false,
+			    keyboard: false,
+			    title: (coordsCounts[key] <= 1 ?
+				    "Ein Dokument" :
+				    coordsCounts[key] + " Dokumente")
+			}).addTo(map));
+		    }
 		var minLat, maxLat, minLon, maxLon;
 		coords.forEach(function(coord) {
 		    if (typeof minLat === 'undefined' ||
