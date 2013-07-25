@@ -2,7 +2,7 @@
 module Locations where
 
 import Control.Applicative
-import Control.Exception
+import qualified Control.Exception as E
 import Control.Monad
 import Data.Maybe
 import Data.List
@@ -51,9 +51,9 @@ loadLocations dataDir =
     foldM (\result sessionId ->
                do let docRef = DocumentReference sessionId
                       locsPath = dataDir ++ "/" ++ sessionId ++ "/locations.json"
-                  mDocLocs <- catch (decode <$>
-                                     LB.readFile locsPath) $
-                              \(_ :: SomeException) -> return Nothing
+                  mDocLocs <- E.catch (decode <$>
+                                       LB.readFile locsPath) $
+                              \(_ :: E.SomeException) -> return Nothing
                   let result''' =
                          case mDocLocs of
                            Just docLocs ->
