@@ -11,6 +11,7 @@ import System.Directory (getDirectoryContents)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Text (Text)
+import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as LB
 import qualified Data.Vector as Vec
 import qualified Data.Text as T
@@ -52,7 +53,8 @@ loadLocations dataDir =
                do let docRef = DocumentReference sessionId
                       locsPath = dataDir ++ "/" ++ sessionId ++ "/locations.json"
                   mDocLocs <- E.catch (decode <$>
-                                       LB.readFile locsPath) $
+                                       LB.fromChunks <$> (:[]) <$>
+                                       B.readFile locsPath) $
                               \(_ :: E.SomeException) -> return Nothing
                   let result''' =
                          case mDocLocs of
@@ -211,7 +213,8 @@ findDocs loc mapLocs@(MapLocations dataDir _) =
                              do let metaFile = dataDir ++ "/" ++ 
                                                sessionId ++ "/metadata.json"
                                 mMeta <- decode <$>
-                                         LB.readFile metaFile
+                                         LB.fromChunks <$> (:[]) <$>
+                                         B.readFile metaFile
                                 return $
                                        case mMeta of
                                          Just meta ->
@@ -233,6 +236,6 @@ findDocs loc mapLocs@(MapLocations dataDir _) =
                            Nothing ->
                                []
        return $
-              do (docLoc, docRef@(DocumentReference sessionId _)) <- matches'
+              do (docLoc, docRef) <- matches'
                  let description = lookupDescription docRef
                  return $ Match docLoc docRef description
