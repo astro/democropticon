@@ -87,13 +87,10 @@ app.directive('pdfJs', function() {
 	restrict: 'A',
 	link: function($scope, element, attrs) {
 	    $scope.setPDF = function(url) {
-		// element.attr('src',
-		//     "http://mozilla.github.io/pdf.js/web/viewer.html?file=" +
-		//     encodeURIComponent(url)
-		// );
 		element.attr('src',
 		    "/static/pdf.js/viewer.html?file=" +
-		    encodeURIComponent(url)
+		    encodeURIComponent(url) +
+		    "#disableRange=true"
 		);
 	    };
 	}
