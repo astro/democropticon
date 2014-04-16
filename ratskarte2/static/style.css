@@ -1,0 +1,130 @@
+html, body {
+    margin: 0;
+    body: 0;
+    min-width: 50em;
+    min-height: 10em;
+    background-color: white;
+    color: #111;
+    font-family: sans-serif;
+}
+h1 {
+    z-index: 10;
+    font-size: 300%;
+    font-family: serif;
+    background-color: #fff100;
+    color: #2a2a2a;
+    border-bottom: solid 0.2em #e5d800;
+    line-height: 1em;
+    padding: 0.1em 0.5em;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#map {
+    position: absolute;
+    top: 4.1rem;
+    bottom: 0;
+    left: 0;
+    right: 30rem;
+}
+
+.mapIcon {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 black, 0 1px 0 black, -1px 0 0 black, 1px 0 0 black;
+    background-color: #3fcf3f;
+    border-radius: 100%;
+    border: 2px solid #007f00;
+    text-align: center;
+    box-shadow: 4px -4px 1px rgba(0, 0, 0, 0.3);
+}
+.mapIcon.selected {
+    background-color: #3f3fcf;
+    border: 2px solid #00007f;
+}
+.mapIcon.indicated {
+    background-color: #ffff10;
+    border: 2px solid #e5d800;
+}
+
+#sidebar {
+    position: absolute;
+    top: 4.1rem;
+    bottom: 0;
+    right: 0;
+    width: 30rem;
+    padding: 0;
+}
+#search {
+    display: block;
+    margin: 0.5em 0;
+    text-align: center;
+}
+#search h2 {
+    font-size: 100%;
+}
+#search > * {
+    display: inline;
+}
+#status {
+    font-size: 90%;
+    color: #666;
+    vertical-align: middle;
+}
+
+#docList {
+    list-style-type: none;
+    color: #333;
+    overflow-x: visible;
+    overflow-y: scroll;
+    position: fixed;
+    width: 30rem;
+    right: 0rem;
+    top: 7rem;
+    bottom: 0;
+    padding: 0;
+    margin: 0;
+    border-top: solid 1px #e5d800;
+}
+#docList li {
+    padding: 0.7em 0.5em 0.5em;
+    border-bottom: solid 1px #fff100;
+}
+#docList li:hover {
+    background-color: #ffffcf;
+}
+#docList h2, #docList h3 {
+    font-size: 100%;
+    font-weight: bold;
+    margin: 0;
+}
+#docList h3 {
+    color: #666;
+    border-bottom: 1px solid #ccc;
+}
+#docList p {
+    margin: 0;
+}
+#docList .date {
+    float: right;
+    margin-left: 1em;
+    font-size: 90%;
+}
+#docList .decision {
+    clear: right;
+    float: right;
+    margin-left: 1em;
+    color: #7f7f7f;
+    font-size: 90%;
+}
+#docList .decision.accepted {
+    color: #007f00;
+}
+#docList .decision.rejected {
+    color: #7f0000;
+}
+
