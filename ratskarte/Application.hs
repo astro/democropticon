@@ -59,7 +59,7 @@ getByLocationR lon lat =
     do locs <- appLocs <$> getYesod
        let loc = Location lon lat
        matches <- lift $ findDocs loc locs
-       return $ RepJson $ toContent $
+       return $ repJson $
               array matches
 
 -- | Constructs application

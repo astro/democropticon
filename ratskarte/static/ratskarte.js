@@ -128,6 +128,6 @@ app.controller('MainController', function($scope, $http) {
     };
 
     $scope.onClickPDF = function(path) {
-	$scope.setPDF(window.location.origin + "/pdf/" + path);
+	$scope.setPDF("/pdf/" + path);
     };
 });

@@ -41,7 +41,7 @@ instance FromJSON DocumentLocations where
         o .: "coordinates"
     parseJSON _ = empty
 
-data DocumentReference = DocumentReference FilePath Text
+data DocumentReference = DocumentReference FilePath Text  -- ^ sessionId filename
                          deriving (Show, Eq, Ord)
 data MapLocations = MapLocations FilePath (Map Location [DocumentReference])
 
