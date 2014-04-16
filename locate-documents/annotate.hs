@@ -16,7 +16,6 @@ import qualified Data.ByteString as B
 import Data.List hiding (find, words)
 import Data.Maybe
 import Data.Char
-import Debug.Trace
 
 
 main :: IO ()
