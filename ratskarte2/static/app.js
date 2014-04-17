@@ -106,7 +106,6 @@ function updateSelection() {
             markers.clearLayers();
 
             var zoomed = result.aggregations.zoomedView;
-            console.log(zoomed.zoom1.buckets.length + " buckets for " + zoomed.doc_count + " hits");
             zoomed.zoom1.buckets.forEach(function(bucket) {
                 var caption = bucket.doc_count + "";
                 var size = Math.ceil(10 + Math.min(24, Math.sqrt(bucket.doc_count)));
@@ -133,7 +132,6 @@ function updateSelection() {
         }
         if (result && result.hits && result.hits.hits) {
             var hits = result.hits.hits;
-            console.log(hits.length + "/" + result.hits.total + " hits");
             $('#status').text(result.hits.total + " Treffer");
 
             displayHits(hits);
@@ -172,7 +170,6 @@ function onClickMarker(ev) {
         }
         if (result && result.hits && result.hits.hits) {
             var hits = result.hits.hits;
-            console.log(hits.length + "/" + result.hits.total + " hits");
             $('#status').text(result.hits.total + " Treffer");
 
             displayHits(hits);
