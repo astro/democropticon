@@ -90,60 +90,13 @@ function displayHits(hits) {
 
 function updateSelection() {
     var bounds = map.getBounds();
-    var n = bounds.getNorth();
-    var s = bounds.getSouth();
-    var w = bounds.getWest();
-    var e = bounds.getEast();
-    console.log("zoom", map.getZoom(), "precision", zoomToPrecision(map.getZoom()));
-    var filter = {
-        and: [
-            {
-                geo_bounding_box: {
-                    location: {
-                        top_left: { lat: n, lon: w },
-                        bottom_right: { lat: s, lon: e }
-                    }
-                }
-            }
-        ]
-    };
-    var search;
-    if ((search = $('#search input').val())) {
-        filter.and.push({
-            query: {
-                query_string: {
-                    query: search
-                }
-            }
-        });
-    }
     callSearch({
-        size: 30,
-        query: {
-            filtered: {
-                query: {
-                    match_all: {}
-                },
-                filter: filter
-            }
-        },
-        sort: [
-            { 'session.started_at': { order: 'desc' } },
-            { file_name: { order: 'asc' } }
-        ],
-        aggregations: {
-            zoomedView: {
-                filter: filter,
-                aggregations:{
-                    zoom1:{
-                        geohash_grid: {
-                            field: 'location',
-                            precision: zoomToPrecision(map.getZoom())
-                        }
-                    }
-                }
-            }
-        }
+        n: bounds.getNorth(),
+        s: bounds.getSouth(),
+        w: bounds.getWest(),
+        e: bounds.getEast(),
+        zoom: zoomToPrecision(map.getZoom()),
+        search: $('#search input').val()
     }, function(error, result) {
         if (error) {
             $('#status').text("Fehler :-(");
@@ -206,47 +159,12 @@ function onClickMarker(ev) {
     $(ev.target._icon).addClass('selected');
 
     var geo = ev.target.options.geohash;
-    var s = geo.latitude[0];
-    var n = geo.latitude[1];
-    var w = geo.longitude[0];
-    var e = geo.longitude[1];
-
-    var filter = {
-        and: [
-            {
-                geo_bounding_box: {
-                    location: {
-                        top_left: { lat: n, lon: w },
-                        bottom_right: { lat: s, lon: e }
-                    }
-                }
-            }
-        ]
-    };
-    var search;
-    if ((search = $('#search input').val())) {
-        filter.and.push({
-            query: {
-                query_string: {
-                    query: search
-                }
-            }
-        });
-    }
     callSearch({
-        size: 100,
-        query: {
-            filtered: {
-                query: {
-                    match_all: {}
-                },
-                filter: filter
-            }
-        },
-        sort: [
-            { 'session.started_at': { order: 'desc' } },
-            { file_name: { order: 'asc' } }
-        ]
+        s: geo.latitude[0],
+        n: geo.latitude[1],
+        w: geo.longitude[0],
+        e: geo.longitude[1],
+        search: $('#search input').val()
     }, function(error, result) {
         if (error) {
             $('#status').text("Fehler :-(");
@@ -266,11 +184,9 @@ function onClickMarker(ev) {
 
 function callSearch(data, cb) {
     $.ajax({
-        url: "http://localhost:9200/ratsinfo/pdf/_search",
-        method: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        processData: false,
+        url: "/_search",
+        method: 'GET',
+        data: data,
         success: function(result) {
             console.log("callSearch result:", result);
             cb(null, result);
