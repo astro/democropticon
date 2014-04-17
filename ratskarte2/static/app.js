@@ -3,7 +3,7 @@ map.setView([51.0474, 13.7464], 10);
 map.addLayer(
     L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 	attribution: "OpenStreetMap.org",
-	maxZoom: 17
+	maxZoom: 18
     })
 );
 
@@ -17,10 +17,11 @@ var ZOOM_TABLE = {
     14: 6,
     15: 7,
     16: 8,
-    17: 10
+    17: 10,
+    18: 11
 };
 function zoomToPrecision(mapZoom) {
-    return ZOOM_TABLE[Math.max(10, Math.min(17, mapZoom))];
+    return ZOOM_TABLE[Math.max(10, Math.min(18, mapZoom))];
 }
 
 function displayHits(hits) {
@@ -117,7 +118,7 @@ function updateSelection() {
                 var geo = GeoHash.decodeGeoHash(bucket.key);
                 var loc = { lon: geo.longitude[2], lat: geo.latitude[2] };
                 var marker = L.marker(loc, {
-                    title: bucket.doc_count + " Dokumente", 
+                    title: bucket.doc_count + " Treffer", 
                     geohash: geo,
                     icon: icon
                 });
@@ -133,7 +134,7 @@ function updateSelection() {
         if (result && result.hits && result.hits.hits) {
             var hits = result.hits.hits;
             console.log(hits.length + "/" + result.hits.total + " hits");
-            $('#status').text(result.hits.total + " Dokumente");
+            $('#status').text(result.hits.total + " Treffer");
 
             displayHits(hits);
         }
@@ -172,7 +173,7 @@ function onClickMarker(ev) {
         if (result && result.hits && result.hits.hits) {
             var hits = result.hits.hits;
             console.log(hits.length + "/" + result.hits.total + " hits");
-            $('#status').text(result.hits.total + " Dokumente");
+            $('#status').text(result.hits.total + " Treffer");
 
             displayHits(hits);
         }

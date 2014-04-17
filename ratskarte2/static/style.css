@@ -61,8 +61,7 @@ h1 {
 }
 #search {
     display: block;
-    margin: 0.5em 0;
-    text-align: center;
+    margin: 0.5rem 0.5rem;
 }
 #search h2 {
     font-size: 100%;
@@ -104,7 +103,7 @@ h1 {
 }
 #docList h3 {
     color: #666;
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 #docList p {
     margin: 0;
