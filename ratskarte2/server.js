@@ -45,6 +45,12 @@ app.get('/_search', function(req, res) {
             }
         },
         sort: [
+            '_score',
+            { _script: {
+                script: "doc['locations.lat'].values.length",
+                type: 'number',
+                order: 'asc'
+            } },
             { 'session.started_at': { order: 'desc' } },
             { file_name: { order: 'asc' } }
         ]
