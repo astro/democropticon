@@ -125,9 +125,9 @@ run locs dataDir =
                                  sessionDir ++ "/" ++ 
                                  fileName
                          file <- decodeUtf8 <$> B.readFile path
-                         putStrLn $ path ++ " (" ++ show (T.length file) ++ ")"
                          let fileLocs = map addrLocation $ 
                                         findFileLocations locs file
+                         putStrLn $ path ++ " (" ++ show (length fileLocs) ++ " locations in " ++ show (T.length file) ++ " bytes)"
                          return $
                                 case fileLocs of
                                   [] -> Nothing 
