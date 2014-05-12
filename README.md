@@ -13,6 +13,8 @@ Next, convert PDFs to Text:
 ./pdftotext.sh
 ```
 
+Extract addresses with **osm-addrs** or alternatively get [the Dresden dataset](http://astro.github.io/democropticon/dresden.json).
+
 Finally, use **locate-documents** to create `locations.json` files.
 
 ## Setup Elasticsearch
@@ -29,7 +31,9 @@ npm i
 
 ### Upload data into elasticsearch
 
-**FIXME**
+```sh
+node upload.js data
+```
 
 ## ratskarte2 server
 
