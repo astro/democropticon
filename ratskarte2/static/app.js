@@ -107,6 +107,8 @@ function updateSelection() {
 
             var zoomed = result.aggregations.zoomedView;
             zoomed.zoom1.buckets.forEach(function(bucket) {
+                var geo = GeoHash.decodeGeoHash(bucket.key);
+                // TODO: check bounds
                 var caption = bucket.doc_count + "";
                 var size = Math.ceil(10 + Math.min(24, Math.sqrt(bucket.doc_count)));
                 var icon = L.divIcon({
@@ -114,7 +116,6 @@ function updateSelection() {
                     html: caption,
                     iconSize: size
                 });
-                var geo = GeoHash.decodeGeoHash(bucket.key);
                 var loc = { lon: geo.longitude[2], lat: geo.latitude[2] };
                 var marker = L.marker(loc, {
                     title: bucket.doc_count + " Treffer", 
