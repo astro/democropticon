@@ -11,11 +11,15 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
         },
         "ratsinfo_stop": {
           "type": "stop",
-          "stopwords": ["und", "oder", "der", "die", "das", "des", "dass"]
+          "stopwords": ["und", "oder", "der", "die", "das", "des", "dass", "für", "über", "zu", "zur", "werd", "wurd"]
         },
         "german_stemmer": {
           "type": "stemmer",
           "name": "german"
+        },
+        "min_length": {
+          "type": "length",
+          "min": "3"
         }
       },
       "analyzer": {
@@ -24,6 +28,7 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
             "lowercase",
             "asciifolding",
             "german_stemmer",
+            "min_length",
             "german_stop",
             "ratsinfo_stop"
           ],
