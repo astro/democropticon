@@ -24,7 +24,8 @@ function uploadSession(sessionDir, cb) {
                 result = {
                     part_description: metadata.description,
                     doc_description: document.description,
-                    session_id: metadata.id
+                    session_id: metadata.id,
+                    started_at: metadata.started_at
                 }
             }
         })
@@ -39,7 +40,8 @@ function uploadSession(sessionDir, cb) {
                             part_description: part.description,
                             doc_description: document.description,
                             template_id: part.template_id,
-                            session_id: metadata.id
+                            session_id: metadata.id,
+                            started_at: metadata.started_at
                         }
                     }
                 })
@@ -97,7 +99,8 @@ function uploadSession(sessionDir, cb) {
                     doc_description: desc.doc_description,
                     text: text,
                     session_id: metadata.id,
-                    template_id: desc.template_id
+                    template_id: desc.template_id,
+                    started_at: desc.started_at
                 }
                 es.index({
                     index: INDEX_NAME,
