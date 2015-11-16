@@ -44,19 +44,16 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
           "text": {
               "type": "string",
               "store": false,
-              "index_name": "text",
               "analyzer": "ratsinfo_analyzer"
           },
           "part_description": {
               "type": "string",
               "store": true,
-              "index_name": "part_description",
               "analyzer": "ratsinfo_analyzer"
           },
           "doc_description": {
               "type": "string",
               "store": true,
-              "index_name": "doc_description",
               "analyzer": "ratsinfo_analyzer"
           }
       }
