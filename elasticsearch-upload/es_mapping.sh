@@ -9,9 +9,13 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
           "type": "stop",
           "stopwords": "_german_"
         },
+        "ratsinfo_stop": {
+          "type": "stop",
+          "stopwords": ["und", "oder", "der", "die", "das", "des", "dass"]
+        },
         "german_stemmer": {
           "type": "stemmer",
-          "language": "german"
+          "name": "german"
         }
       },
       "analyzer": {
@@ -19,8 +23,9 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
           "filter": [
             "lowercase",
             "asciifolding",
+            "german_stemmer",
             "german_stop",
-            "german_stemmer"
+            "ratsinfo_stop"
           ],
           "tokenizer": "lowercase"
         }
