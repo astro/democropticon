@@ -18,7 +18,6 @@ function uploadSession(sessionDir, cb) {
     var metadata
     function getDocDescriptions(filename) {
         var result
-        filename = filename.replace(/\.xml$/, ".pdf")
         metadata.documents.forEach(function(document) {
             if (document.file_name === filename) {
                 // No part, no template_id
@@ -84,6 +83,8 @@ function uploadSession(sessionDir, cb) {
 
         async.forEachSeries(files, function(file, cb) {
             if (!/\.xml$/.test(file)) return cb()
+            // Restore original extension:
+            file = file.replace(/\.xml$/, ".pdf")
 
             fs.readFile(sessionDir + "/" + file, {
                 encoding: 'utf8'
@@ -94,21 +95,15 @@ function uploadSession(sessionDir, cb) {
                 var $ = cheerio.load(data)
                 var text = $('body').text()
                 // Annotate with session metadata
+                var doc = {}
                 try {
-                    var desc = getDocDescriptions(file)
+                    doc = getDocDescriptions(file)
                 } catch (e) {
                     console.error(e.message);
                     return cb();
                 }
-                var doc = {
-                    file_name: file,
-                    part_description: desc.part_description,
-                    doc_description: desc.doc_description,
-                    text: text,
-                    session_id: metadata.id,
-                    template_id: desc.template_id,
-                    started_at: desc.started_at
-                }
+                doc.file_name = file
+                doc.text = text
                 es.index({
                     index: INDEX_NAME,
                     type: 'pdf',
@@ -129,6 +124,7 @@ async.waterfall([function(cb) {
     });
 
     var i = 0;
+    // For each session in the dataDir uploadSession() in parallel:
     async.eachLimit(subDirs, 4, function(subDir, done) {
         i++;
         console.log(Math.ceil(100 * i / subDirs.length) + "% " + subDir);
