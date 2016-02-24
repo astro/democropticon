@@ -21,9 +21,10 @@ function uploadSession(sessionDir, cb) {
         filename = filename.replace(/\.xml$/, ".pdf")
         metadata.documents.forEach(function(document) {
             if (document.file_name === filename) {
+                // No part, no template_id
                 result = {
-                    part_description: metadata.description,
-                    doc_description: document.description,
+                    description: document.description,
+                    session_description: metadata.description,
                     session_id: metadata.id,
                     started_at: metadata.started_at
                 }
@@ -37,9 +38,10 @@ function uploadSession(sessionDir, cb) {
                 part.documents.forEach(function(document) {
                     if (document.file_name === filename) {
                         result = {
-                            part_description: part.description,
-                            doc_description: document.description,
+                            description: document.description,
+                            template_description: part.description,
                             template_id: part.template_id,
+                            session_description: metadata.description,
                             session_id: metadata.id,
                             started_at: metadata.started_at
                         }
@@ -92,7 +94,12 @@ function uploadSession(sessionDir, cb) {
                 var $ = cheerio.load(data)
                 var text = $('body').text()
                 // Annotate with session metadata
-                var desc = getDocDescriptions(file)
+                try {
+                    var desc = getDocDescriptions(file)
+                } catch (e) {
+                    console.error(e.message);
+                    return cb();
+                }
                 var doc = {
                     file_name: file,
                     part_description: desc.part_description,
@@ -106,7 +113,8 @@ function uploadSession(sessionDir, cb) {
                     index: INDEX_NAME,
                     type: 'pdf',
                     id: file.replace(/\.xml$/, ""),
-                    body: doc
+                    body: doc,
+                    parent: metadata.id
                 }, cb);
             })
         }, cb)
@@ -114,7 +122,7 @@ function uploadSession(sessionDir, cb) {
 }
 
 async.waterfall([function(cb) {
-    fs.readdir(dataDir + "/sitzungsdokumente-tika", cb);
+    fs.readdir(dataDir, cb);
 }, function(subDirs, cb) {
     subDirs = subDirs.filter(function(subDir) {
         return /^\d+$/.test(subDir);
@@ -124,7 +132,7 @@ async.waterfall([function(cb) {
     async.eachLimit(subDirs, 4, function(subDir, done) {
         i++;
         console.log(Math.ceil(100 * i / subDirs.length) + "% " + subDir);
-        var sessionDir = dataDir + "/sitzungsdokumente-tika/" + subDir;
+        var sessionDir = dataDir + "/" + subDir;
         uploadSession(sessionDir, done)
     }, cb);
 }, function(cb) {
