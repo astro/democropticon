@@ -11,7 +11,7 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
         },
         "ratsinfo_stop": {
           "type": "stop",
-          "stopwords": ["und", "oder", "der", "die", "das", "des", "dass", "für", "über", "zu", "zur", "werd", "wurd"]
+          "stopwords": ["und", "oder", "der", "die", "das", "des", "dass", "für", "fur", "über", "uber", "zu", "zur", "werd", "wurd"]
         },
         "german_stemmer": {
           "type": "stemmer",
@@ -40,6 +40,7 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
   "mappings": {
     "pdf": {
       "_source": { "excludes": ["text"] },
+      "_parent": { "type": "session" },
       "properties": {
           "file_name": {
               "type": "string",
@@ -56,12 +57,17 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
               "store": false,
               "analyzer": "ratsinfo_analyzer"
           },
-          "part_description": {
+          "session_description": {
               "type": "string",
               "store": true,
               "analyzer": "ratsinfo_analyzer"
           },
-          "doc_description": {
+          "template_description": {
+              "type": "string",
+              "store": true,
+              "analyzer": "ratsinfo_analyzer"
+          },
+          "description": {
               "type": "string",
               "store": true,
               "analyzer": "ratsinfo_analyzer"
@@ -69,8 +75,8 @@ curl -XPUT 'http://localhost:9200/ratsinfo/' -d '{
       }
     },
     "session": {
-        "properties": {
-        }
+      "properties": {
+      }
     }
   }
 }'
