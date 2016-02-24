@@ -92,8 +92,13 @@ function uploadSession(sessionDir, cb) {
                 if (err) return cb(err)
 
                 // Get HTML text
-                var $ = cheerio.load(data)
-                var text = $('body').text()
+                try {
+                    var $ = cheerio.load(data)
+                    var text = $('body').text()
+                } catch (e) {
+                    console.error(e.message);
+                    return cb();
+                }
                 // Annotate with session metadata
                 var doc = {}
                 try {
