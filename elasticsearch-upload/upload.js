@@ -83,8 +83,6 @@ function uploadSession(sessionDir, cb) {
 
         async.forEachSeries(files, function(file, cb) {
             if (!/\.xml$/.test(file)) return cb()
-            // Restore original extension:
-            file = file.replace(/\.xml$/, ".pdf")
 
             fs.readFile(sessionDir + "/" + file, {
                 encoding: 'utf8'
@@ -99,9 +97,14 @@ function uploadSession(sessionDir, cb) {
                     console.error(e.message);
                     return cb();
                 }
+
                 // Annotate with session metadata
+
+                // Restore original extension:
+                file = file.replace(/\.xml$/, ".pdf")
                 var doc = {}
                 try {
+                    // Obtain doc-specific metadata
                     doc = getDocDescriptions(file)
                 } catch (e) {
                     console.error(e.message);
@@ -121,6 +124,7 @@ function uploadSession(sessionDir, cb) {
     }], cb)
 }
 
+/*** Main function ***/
 async.waterfall([function(cb) {
     fs.readdir(dataDir, cb);
 }, function(subDirs, cb) {
