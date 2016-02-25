@@ -71,7 +71,7 @@ function uploadSession(sessionDir, cb) {
         es.index({
             index: INDEX_NAME,
             type: 'session',
-            id: metadata.id,
+            id: sessionDir,
             body: metadata
         }, function(err) {
             cb(err)
